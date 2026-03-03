@@ -3,6 +3,9 @@ package com.nisa.todoapp;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import jakarta.validation.Valid;
+import com.nisa.todoapp.dto.CreateTodoRequest;
+import com.nisa.todoapp.dto.UpdateTodoRequest;
+import com.nisa.todoapp.dto.TodoResponse;
 
 @RestController
 @RequestMapping("/todos")
@@ -15,13 +18,13 @@ public class TodoController {
     }
 
     @GetMapping
-    public List<Todo> getAll() {
+    public List<TodoResponse> getAll() {
         return service.getAll();
     }
 
     @PostMapping
-    public Todo create(@Valid @RequestBody Todo todo) {
-        return service.save(todo);
+    public TodoResponse create(@Valid @RequestBody CreateTodoRequest request) {
+        return service.create(request);
     }
 
 
@@ -32,12 +35,15 @@ public class TodoController {
 
 
     @PutMapping("/{id}")
-    public Todo update(@PathVariable Long id, @RequestBody Todo todo) {
-        return service.update(id, todo);
+    public TodoResponse update(
+            @PathVariable Long id,
+            @Valid @RequestBody UpdateTodoRequest request) {
+
+        return service.update(id, request);
     }
 
     @GetMapping("/{id}")
-    public Todo getById(@PathVariable Long id) {
+    public TodoResponse getById(@PathVariable Long id) {
         return service.getById(id);
     }
 }
